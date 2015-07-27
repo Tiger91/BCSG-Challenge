@@ -13,8 +13,8 @@ public class Account
 
 	public Account(String bank, String account, String date)
 	{
-		this.bank = bank;
-		this.account = account;
+		setBank(bank);
+		setAccount(bank, account);
 		this.date = stringToDate(date);
 	}
 	
@@ -31,7 +31,41 @@ public class Account
 		return date;
 	}
 	
-
+	public void setBank(String bank)
+	{
+		//if in csv file bank name has a more than single space, trim into single space
+		this.bank = bank.trim().replaceAll(" +"," ");
+	}
+	
+	public void setAccount(String bank, String account)
+	{
+		//different banks mask account number differently
+		//if new bank is added only last four digits will be masked by default,
+		//unless otherwise required
+		
+		//if in csv file bank name has a more than single space, trim into single space
+		bank = bank.trim().replaceAll(" +"," ");
+		
+		if(account.length() == 19) //length of digits including hyphen(-)
+		{
+		 this.account = MaskDigits.mask(account, "xxxx-xxxx-xxxx-####");
+		}
+		if(bank.equals("HSBC Canada"))
+		{
+			
+			this.account = MaskDigits.mask(account, "##xx-xxxx-xxxx-xxxx");
+		}
+		
+		if(bank.equals("Royal Bank of Canada"))
+		{
+			this.account = MaskDigits.mask(account, "####-xxxx-xxxx-xxxx");
+		}
+		
+		if(bank.equals("American Express"))
+		{
+			this.account = MaskDigits.mask(account, "xxxx-xxxx-xxxx-###");
+		}
+	}
 
 	//convert from String to Date
 	public Date stringToDate(String d)

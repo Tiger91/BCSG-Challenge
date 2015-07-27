@@ -12,7 +12,7 @@ import java.util.List;
 public class Reader 
 {
 	
-	public List<Account> read(String fileName) throws FileNotFoundException
+	public List<Account> read(String fileName)
 	{
 		String line = ""; //declare line
 		
@@ -47,13 +47,12 @@ public class Reader
 			//e.printStackTrace();
 			
 			System.out.println("File Not Found: " + fileName);
-			
-			throw e;
 		} 
 		catch (IOException e) 
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("No file or directory");
 		}
 		
 		return account;
